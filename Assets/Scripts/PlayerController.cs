@@ -106,7 +106,11 @@ public class PlayerController : MonoBehaviour
         {
             if (m_OverlapBlock != other.gameObject)
             {
-                SceneManager.LoadScene("OverScene");
+                DropBool = true;
+
+                this.animator.SetTrigger("Drop");
+
+                StartCoroutine(FallAndTransition());
 
                 m_OverlapBlock = other.gameObject;
             }

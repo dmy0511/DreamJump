@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ObsController : MonoBehaviour
 {
-    float speed = 5.0f;
+    float speed = 7.0f;
     GameObject player;
     public Image warningImg;
-    float waitTime = 1.0f;
+    float waitTime = 0.75f;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +38,7 @@ public class ObsController : MonoBehaviour
     public void InitObs(float a_PosX)
     {
         player = GameObject.Find("cat");
-        transform.position = new Vector3(a_PosX * 2f,
+        transform.position = new Vector3(a_PosX,
                                  player.transform.position.y + 10.0f, 0.0f);
 
         //경고 표시 위치 잡아주기

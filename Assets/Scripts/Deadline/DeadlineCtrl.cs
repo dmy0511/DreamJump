@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeadlineCtrl : MonoBehaviour
 {
     GameObject player;
-    float speed = 1.0f; //1초에 1m를 움직이게 한다는 속도
+    public float speed = 1.0f; //1초에 1m를 움직이게 한다는 속도
     float distanceItv = 8.0f;   //주인공과의 거리가 8m 이상 벌어지지 않도록...
 
     // Start is called before the first frame update
