@@ -6,14 +6,18 @@ using UnityEngine.UI;
 
 public class SoundMgr : MonoBehaviour
 {
+    [SerializeField] private Button optionBtn;
+    [SerializeField] private GameObject option;
     [SerializeField] private AudioMixer myMixer;
     [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider soundSlider;
 
     private void Start()
     {
+        option.SetActive(false);
+
         SetMusicVolume();
-        SetSFXVolume();
+        SetSoundVolume();
     }
 
     public void SetMusicVolume()
@@ -22,9 +26,19 @@ public class SoundMgr : MonoBehaviour
         myMixer.SetFloat("music", Mathf.Log10(volume) * 20);
     }
 
-    public void SetSFXVolume()
+    public void SetSoundVolume()
     {
-        float volume = sfxSlider.value;
-        myMixer.SetFloat("sfx", Mathf.Log10(volume) * 20);
+        float volume = soundSlider.value;
+        myMixer.SetFloat("sound", Mathf.Log10(volume) * 20);
+    }
+
+    public void Option()
+    {
+        option.SetActive(true);
+    }
+
+    public void Close()
+    {
+        option.SetActive(false);
     }
 }

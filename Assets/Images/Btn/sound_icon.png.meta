@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8cd8cbf195647a948bf28adb9b776a5b
+guid: 4085d053355707748b6113b70e07bd25
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yarn2_0
+      name: sound_icon_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 13
-        width: 145
-        height: 35
+        x: 2
+        y: 6
+        width: 53
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90c7c3e473c65f04d8bf599f4c92dae6
-      internalID: 1785191727
+      spriteID: 4219938191c10c049a17bf6c150cc7a3
+      internalID: 1855317777
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      yarn2_0: 1785191727
+      sound_icon_0: 1855317777
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

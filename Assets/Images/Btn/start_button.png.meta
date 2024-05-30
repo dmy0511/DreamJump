@@ -113,10 +113,10 @@ TextureImporter:
       name: start_button_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 15
-        width: 685
-        height: 322
+        x: 0
+        y: 0
+        width: 600
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5fcaccf14f07db408e0460dd94a1bf3
-      internalID: -1345478913
+      spriteID: 5484c76050681ab419c90ca9db182bd4
+      internalID: 466227036
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      start_button_0: -1345478913
+      start_button_0: 466227036
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
