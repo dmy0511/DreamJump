@@ -29,7 +29,7 @@ public class SoundMgr : MonoBehaviour
     public void SetSoundVolume()
     {
         float volume = soundSlider.value;
-        myMixer.SetFloat("sound", Mathf.Log10(volume) * 20);
+        myMixer.SetFloat("sound", Mathf.Log10(volume) * 100);
     }
 
     public void Option()

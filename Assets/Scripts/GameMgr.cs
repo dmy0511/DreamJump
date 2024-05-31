@@ -13,9 +13,9 @@ public class GameMgr : MonoBehaviour
     public Text CurScore_Text;
     public Text BestScore_Text;
 
-    public static float m_CurScore = 0.0f;    // 현재 최고 높이
-    public static float m_BestScore = 0.0f;    // 최고 기록 높이
-
+    public static float m_CurScore = 0.0f;    // 현재 점수
+    public static float m_BestScore = 0.0f;    // 최고 점수
+    
     void Awake()
     {
         if (instance == null)
@@ -92,6 +92,14 @@ public class GameMgr : MonoBehaviour
 
         if (BestScore_Text != null)
             BestScore_Text.text = "최고점 : " + m_BestScore.ToString();
+
+        if (Input.GetKeyDown(KeyCode.K))    //치트키
+        {
+            m_BestScore = 0.0f;
+            Save();
+            if (BestScore_Text != null)
+                BestScore_Text.text = "최고점 : " + m_BestScore.ToString();
+        }
     }
 
     public static void Save()

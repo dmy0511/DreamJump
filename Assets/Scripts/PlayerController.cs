@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     float jumpForce = 650.0f;
     float walkSpeed = 5.0f;
 
+    float m_Height = 0.0f;
+
     public float fallSpeed = 3f;
     
     bool DropBool = false;
