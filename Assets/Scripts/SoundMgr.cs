@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundMgr : MonoBehaviour
@@ -19,6 +20,25 @@ public class SoundMgr : MonoBehaviour
 
         SetMusicVolume();
         SetSoundVolume();
+
+        //DontDestroyOnLoad(gameObject);
+
+        //if (optionBtn != null)
+        //{
+        //    DontDestroyOnLoad(optionBtn.transform.parent.gameObject);
+        //}
+        //if (option != null)
+        //{
+        //    DontDestroyOnLoad(option.transform.parent.gameObject);
+        //}
+        //if (musicSlider != null)
+        //{
+        //    DontDestroyOnLoad(musicSlider.transform.parent.gameObject);
+        //}
+        //if (soundSlider != null)
+        //{
+        //    DontDestroyOnLoad(soundSlider.transform.parent.gameObject);
+        //}
     }
 
     private void Update()
