@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class SoundMgr : MonoBehaviour
@@ -18,6 +19,16 @@ public class SoundMgr : MonoBehaviour
 
         SetMusicVolume();
         SetSoundVolume();
+    }
+
+    private void Update()
+    {
+        float volume = musicSlider.value;
+
+        if (musicSlider.value <= 0)
+        {
+            myMixer.SetFloat("music", Mathf.Log10(volume) * 0);
+        }
     }
 
     public void SetMusicVolume()

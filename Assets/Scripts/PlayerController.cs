@@ -161,6 +161,7 @@ public class PlayerController : MonoBehaviour
             if (m_OverlapBlock != other.gameObject)
             {
                 GameMgr.m_CurScore -= 75;
+                //속도 감소 3.0f    //속도값이 3이면 발판 1에서 발판 4까지 점프가 안됨.
 
                 m_OverlapBlock = other.gameObject;
             }
