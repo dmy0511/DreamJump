@@ -243,6 +243,8 @@ public class PlayerController : MonoBehaviour
         float fallDuration = 0.5f;
         float elapsedTime = 0f;
 
+        this.rigid2D.simulated = false;
+
         while (elapsedTime < fallDuration)
         {
             this.rigid2D.velocity = new Vector2(this.rigid2D.velocity.x, -fallSpeed);
@@ -259,14 +261,22 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSecondsRealtime(animationLength);
         Time.timeScale = 1;
 
+        this.rigid2D.simulated = true;
+
         SceneManager.LoadScene("OverScene");
     }
 
     IEnumerator normal()
     {
+        this.rigid2D.simulated = false;
+
         transitionAnim.SetTrigger("End");
         yield return new WaitForSeconds(1);
+
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+
         transitionAnim.SetTrigger("Start");
+
+        this.rigid2D.simulated = true;
     }
 }
