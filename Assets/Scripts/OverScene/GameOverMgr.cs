@@ -54,4 +54,9 @@ public class GameOverMgr : MonoBehaviour
         }
 
     }
+
+    public void GameExit()
+    {
+        Application.Quit();
+    }
 }

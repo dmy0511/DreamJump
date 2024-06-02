@@ -302,7 +302,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -715,7 +715,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1015712430}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278152803}
+        m_TargetAssemblyTypeName: GameOverMgr, Assembly-CSharp
+        m_MethodName: GameExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1015712430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,7 +803,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1280,6 +1292,7 @@ GameObject:
   - component: {fileID: 2053296535}
   - component: {fileID: 2053296537}
   - component: {fileID: 2053296536}
+  - component: {fileID: 2053296538}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Untagged
@@ -1388,7 +1401,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -8043161398106964297, guid: 91a44641331411343b95576995522547,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 24cd27dc87bf4ff45a8d0d7d47d62eb8, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1473,6 +1486,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2053296538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053296533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc65d2cfe9c67974995b7d9ada755655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 2053296537}
 --- !u!1 &2097829629
 GameObject:
   m_ObjectHideFlags: 0

@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e2278a732ec6d41b84b6d2ac0f9781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeed: 3
+  fallSpeed: 5
   transitionAnim: {fileID: 433820168}
 --- !u!61 &788224097
 BoxCollider2D:
@@ -948,7 +948,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1885,8 +1885,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1808559022}
   - component: {fileID: 1808559021}
-  - component: {fileID: 1808559023}
   - component: {fileID: 1808559020}
+  - component: {fileID: 1808559023}
   m_Layer: 0
   m_Name: DeadlineRoot
   m_TagString: Untagged
@@ -1906,7 +1906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577ae96409c0d09439f2ea0e18d1deeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2.5
 --- !u!61 &1808559021
 BoxCollider2D:
   m_ObjectHideFlags: 0

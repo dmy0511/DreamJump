@@ -21,24 +21,9 @@ public class SoundMgr : MonoBehaviour
         SetMusicVolume();
         SetSoundVolume();
 
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
 
-        //if (optionBtn != null)
-        //{
-        //    DontDestroyOnLoad(optionBtn.transform.parent.gameObject);
-        //}
-        //if (option != null)
-        //{
-        //    DontDestroyOnLoad(option.transform.parent.gameObject);
-        //}
-        //if (musicSlider != null)
-        //{
-        //    DontDestroyOnLoad(musicSlider.transform.parent.gameObject);
-        //}
-        //if (soundSlider != null)
-        //{
-        //    DontDestroyOnLoad(soundSlider.transform.parent.gameObject);
-        //}
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Update()
@@ -71,5 +56,22 @@ public class SoundMgr : MonoBehaviour
     public void Close()
     {
         option.SetActive(false);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "OverScene")
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

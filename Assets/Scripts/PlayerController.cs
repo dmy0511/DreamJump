@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -48,24 +49,19 @@ public class PlayerController : MonoBehaviour
             this.rigid2D.AddForce(transform.up * this.jumpForce);
         }
 
-        //좌우 이동
         int key = 0;
         if (Input.GetKey(KeyCode.RightArrow)) key = 1;
         if (Input.GetKey(KeyCode.LeftArrow)) key = -1;
 
-        //플레이어 속도
         float speedx = Mathf.Abs(this.rigid2D.velocity.x);
 
-        //캐릭터 이동
         rigid2D.velocity = new Vector2((key * walkSpeed), rigid2D.velocity.y);
 
-        //움직이는 방향에 따라 이미지 반전
         if (key != 0)
         {
             transform.localScale = new Vector3(0.165f * key, 0.165f, 1.0f);
         }
 
-        //플레이어의 속도에 맞춰 애니메이션 속도 변경
         if (this.rigid2D.velocity.y == 0)
         {
             this.animator.speed = speedx / 2.0f;
@@ -106,21 +102,47 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.name.Contains("obsPrefab") == true)
         {
-            if (m_OverlapBlock != other.gameObject)
+            if (SceneManager.GetActiveScene().name == "FirstScene")
             {
-                DropBool = true;
+                if (m_OverlapBlock != other.gameObject)
+                {
+                    DropBool = true;
 
-                this.animator.SetTrigger("Drop");
+                    this.animator.SetTrigger("Drop");
 
-                StartCoroutine(FallAndTransition());
+                    StartCoroutine(FallAndTransition());
 
-                m_OverlapBlock = other.gameObject;
+                    m_OverlapBlock = other.gameObject;
+                }
+
+                Destroy(other.gameObject);
             }
+            else
+            {
+                DeadlineAudio();
 
-            Destroy(other.gameObject);
+                MusicOff();
+
+                if (m_OverlapBlock != other.gameObject)
+                {
+                    DropBool = true;
+
+                    this.animator.SetTrigger("Drop");
+
+                    StartCoroutine(FallAndTransition());
+
+                    m_OverlapBlock = other.gameObject;
+                }
+
+                Destroy(other.gameObject);
+            }
         }
         else if (other.gameObject.name.Contains("DeadlineRoot") == true)
         {
+            DeadlineAudio();
+
+            MusicOff();
+
             if (m_OverlapBlock != other.gameObject)
             {
                 DropBool = true;
@@ -131,8 +153,6 @@ public class PlayerController : MonoBehaviour
 
                 m_OverlapBlock = other.gameObject;
             }
-
-            Destroy(other.gameObject);
         }
         else if (other.gameObject.name.Contains("can_1") == true)
         {
@@ -161,7 +181,7 @@ public class PlayerController : MonoBehaviour
             if (m_OverlapBlock != other.gameObject)
             {
                 GameMgr.m_CurScore -= 75;
-                //속도 감소 3.0f    //속도값이 3이면 발판 1에서 발판 4까지 점프가 안됨.
+                StartCoroutine(LimitPlayerSpeed(3.0f, 3.0f));
 
                 m_OverlapBlock = other.gameObject;
             }
@@ -238,12 +258,30 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    void MusicOff()
+    {
+        GameObject music = GameObject.Find("SoundMgr");
+
+        music.GetComponent<AudioSource>().Stop();
+    }
+
+    void DeadlineAudio()
+    {
+        GameObject deadlineRoot = GameObject.Find("DeadlineRoot");
+
+        deadlineRoot.GetComponent<AudioSource>().Play();
+    }
+
     private IEnumerator FallAndTransition()
     {
         float fallDuration = 0.5f;
         float elapsedTime = 0f;
 
-        this.rigid2D.simulated = false;
+        Collider2D[] colliders = GetComponents<Collider2D>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
 
         while (elapsedTime < fallDuration)
         {
@@ -261,14 +299,31 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSecondsRealtime(animationLength);
         Time.timeScale = 1;
 
-        this.rigid2D.simulated = true;
+        foreach (var col in colliders)
+        {
+            col.enabled = true;
+        }
 
         SceneManager.LoadScene("OverScene");
     }
 
+    private IEnumerator LimitPlayerSpeed(float newSpeed, float duration)
+    {
+        float originalSpeed = walkSpeed; // Save the original speed
+        walkSpeed = newSpeed; // Set the new speed
+
+        yield return new WaitForSeconds(duration);
+
+        walkSpeed = originalSpeed;
+    }
+
     IEnumerator normal()
     {
-        this.rigid2D.simulated = false;
+        Collider2D[] colliders = GetComponents<Collider2D>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
 
         transitionAnim.SetTrigger("End");
         yield return new WaitForSeconds(1);
@@ -277,6 +332,9 @@ public class PlayerController : MonoBehaviour
 
         transitionAnim.SetTrigger("Start");
 
-        this.rigid2D.simulated = true;
+        foreach (var col in colliders)
+        {
+            col.enabled = true;
+        }
     }
 }
