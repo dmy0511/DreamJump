@@ -5,7 +5,7 @@ using UnityEngine;
 public class FbLineCtrl : MonoBehaviour
 {
     GameObject player;
-    float destroyDistance = 10.0f;  // player 아래쪽으로 10m
+    float destroyDistance = 10.0f;
 
     public GameObject[] Footboards;
     [System.Serializable]
@@ -14,27 +14,23 @@ public class FbLineCtrl : MonoBehaviour
         public GameObject item;
         public float probability;
     }
-    public ItemWithProbability[] ItemProbabilities; // 아이템과 확률을 담은 배열
+    public ItemWithProbability[] ItemProbabilities; //아이템 확률 조정
 
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("cat");
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 playerPos = player.transform.position;
 
-        // 일정 거리 아래 파괴
         if (transform.position.y < playerPos.y - destroyDistance)
             Destroy(gameObject);
     }
 
     public void SetHideFootboards(int a_Count)
     {
-        // a_Count 몇개를 보이지 않게 할 건지 개수
         List<int> active = new List<int>();
         for (int ii = 0; ii < Footboards.Length; ii++)
         {
@@ -51,7 +47,6 @@ public class FbLineCtrl : MonoBehaviour
 
         active.Clear();
 
-        // 아이템 스폰
         SpriteRenderer[] a_FbObj = GetComponentsInChildren<SpriteRenderer>();
 
         foreach (var fbObj in a_FbObj)

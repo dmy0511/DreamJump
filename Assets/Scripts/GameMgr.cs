@@ -13,8 +13,8 @@ public class GameMgr : MonoBehaviour
     public Text CurScore_Text;
     public Text BestScore_Text;
 
-    public static float m_CurScore = 0.0f;    // 현재 점수
-    public static float m_BestScore = 0.0f;    // 최고 점수
+    public static float m_CurScore = 0.0f;
+    public static float m_BestScore = 0.0f;
     
     void Awake()
     {
@@ -81,25 +81,43 @@ public class GameMgr : MonoBehaviour
 
     void Update()
     {
-        if (m_BestScore < m_CurScore)
+        if (m_BestScore < m_CurScore && SceneManager.GetActiveScene().name == "OverScene")
         {
             m_BestScore = m_CurScore;
             Save();
         }
 
         if (CurScore_Text != null)
-            CurScore_Text.text = "점수 : " + m_CurScore.ToString();
+            CurScore_Text.text = "점수 : " + FormatScoreString(m_CurScore);
 
         if (BestScore_Text != null)
-            BestScore_Text.text = "최고점 : " + m_BestScore.ToString();
+            BestScore_Text.text = "최고점 : " + FormatScoreString(m_BestScore);
 
         if (Input.GetKeyDown(KeyCode.K))    //치트키
         {
             m_BestScore = 0.0f;
             Save();
             if (BestScore_Text != null)
-                BestScore_Text.text = "최고점 : " + m_BestScore.ToString();
+                BestScore_Text.text = "최고점 : " + FormatScoreString(m_BestScore);
         }
+    }
+
+    string FormatScoreString(float score)
+    {
+        string scoreString = score.ToString();
+
+        if (score >= 1000)
+        {
+            int length = scoreString.Length;
+            int commaCount = (length - 1) / 3;
+
+            for (int i = 1; i <= commaCount; i++)
+            {
+                scoreString = scoreString.Insert(length - i * 3, ",");
+            }
+        }
+
+        return scoreString;
     }
 
     public static void Save()

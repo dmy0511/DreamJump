@@ -55,19 +55,19 @@ MonoBehaviour:
   - {fileID: 6172123834900428307}
   ItemProbabilities:
   - item: {fileID: 6457557860589650239, guid: dc0e5c73af2d8e94099e661e83074888, type: 3}
-    probability: 0.05
-  - item: {fileID: 6457557860589650239, guid: b02bb4266a4ce994d889ca8fe02a1449, type: 3}
-    probability: 0.05
-  - item: {fileID: 6457557860589650239, guid: 37497e7cb608475409bf0810cdb3ebac, type: 3}
     probability: 0.075
+  - item: {fileID: 6457557860589650239, guid: b02bb4266a4ce994d889ca8fe02a1449, type: 3}
+    probability: 0.075
+  - item: {fileID: 6457557860589650239, guid: 37497e7cb608475409bf0810cdb3ebac, type: 3}
+    probability: 0.15
   - item: {fileID: 6457557860589650239, guid: dc7671ac12b57094f91ddb6740cc434e, type: 3}
-    probability: 0.025
+    probability: 0.02
   - item: {fileID: 6457557860589650239, guid: 00e5ce0d105e0e542954c475689d5e18, type: 3}
-    probability: 0.025
+    probability: 0.02
   - item: {fileID: 6457557860589650239, guid: dd1baa54d0f7a4542be7c0a247d40bdf, type: 3}
-    probability: 0.025
+    probability: 0.02
   - item: {fileID: 6457557860589650239, guid: af756839a2ddb814e91cc7b07c95705e, type: 3}
-    probability: 0.01
+    probability: 0.03
 --- !u!1001 &199756813768221090
 PrefabInstance:
   m_ObjectHideFlags: 0

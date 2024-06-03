@@ -19,12 +19,12 @@ public class GameOverMgr : MonoBehaviour
         }
 
         if (bestScoreText != null)
-            bestScoreText.text = "최고점 : " + GameMgr.m_BestScore.ToString();
+            bestScoreText.text = "최고점 : " + FormatScoreString(GameMgr.m_BestScore);
 
         if (currentScoreText != null)
-            currentScoreText.text = "점수 : " + GameMgr.m_CurScore.ToString();
+            currentScoreText.text = "점수 : " + FormatScoreString(GameMgr.m_CurScore);
 
-        if(rstBtn != null)
+        if (rstBtn != null)
         {
             rstBtn.onClick.AddListener(() =>
             {
@@ -35,22 +35,22 @@ public class GameOverMgr : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("FirstScene");
         }
 
-        if(Input.GetKeyDown(KeyCode.K)) //치트키
+        if (Input.GetKeyDown(KeyCode.K)) //치트키
         {
-            PlayerPrefs.DeleteAll();    //저장 값 모두 초기화 하기
+            PlayerPrefs.DeleteAll();
 
             GameMgr.Load();
 
             if (bestScoreText != null)
-                bestScoreText.text = "최고점 : " + GameMgr.m_BestScore.ToString();
+                bestScoreText.text = "최고점 : " + FormatScoreString(GameMgr.m_BestScore);
 
             if (currentScoreText != null)
-                currentScoreText.text = "점수 : " + GameMgr.m_CurScore.ToString();
+                currentScoreText.text = "점수 : " + FormatScoreString(GameMgr.m_CurScore);
         }
 
     }
@@ -58,5 +58,23 @@ public class GameOverMgr : MonoBehaviour
     public void GameExit()
     {
         Application.Quit();
+    }
+
+    string FormatScoreString(float score)
+    {
+        string scoreString = score.ToString();
+
+        if (score >= 1000)
+        {
+            int length = scoreString.Length;
+            int commaCount = (length - 1) / 3;
+
+            for (int i = 1; i <= commaCount; i++)
+            {
+                scoreString = scoreString.Insert(length - i * 3, ",");
+            }
+        }
+
+        return scoreString;
     }
 }

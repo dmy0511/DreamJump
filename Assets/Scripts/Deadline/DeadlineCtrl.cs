@@ -5,24 +5,20 @@ using UnityEngine;
 public class DeadlineCtrl : MonoBehaviour
 {
     GameObject player;
-    public float speed = 1.0f; //1초에 1m를 움직이게 한다는 속도
-    float distanceItv = 8.0f;   //주인공과의 거리가 8m 이상 벌어지지 않도록...
+    public float speed = 1.0f;  //데드라인 속도
+    float distanceItv = 8.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("cat");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //player 와 거리가 너무 먼 경우 보정
         float a_FollowHeight = player.transform.position.y - distanceItv;
         if (transform.position.y < a_FollowHeight)
             transform.position = new Vector3(0.0f, a_FollowHeight, 0.0f);
 
-        //일정 속도로 위로 움직이게
         transform.Translate(new Vector3(0.0f, speed * Time.deltaTime, 0.0f));
     }
 }

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     bool DropBool = false;
     bool isFbColl = false;
 
+    public GameObject pauseObject;
     GameObject m_OverlapBlock = null; //연속 충돌 방지 변수
 
     [SerializeField] Animator transitionAnim;
@@ -35,13 +36,14 @@ public class PlayerController : MonoBehaviour
         this.animator = GetComponent<Animator>();
 
         transform.localScale = new Vector3(0.165f, 0.165f, 1.0f);
+
+        pauseObject.SetActive(false);
     }
 
     void Update()
     {
         isFbColl = CheckIsFbColl();
 
-        //점프
         if (Input.GetKeyDown(KeyCode.Space) && this.rigid2D.velocity.y == 0)
         {
             this.animator.SetTrigger("JumpTrigger");
@@ -76,27 +78,37 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("FirstScene");
         }
 
-        //화면 밖으로 못 나가게
         Vector3 pos = transform.position;
         if (pos.x < -2.5f) pos.x = -2.5f;
         if (pos.x > 2.5f) pos.x = 2.5f;
         transform.position = pos;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            bool isPaused = !pauseObject.activeSelf;
+            pauseObject.SetActive(isPaused);
+
+            Time.timeScale = isPaused ? 0.0f : 1.0f;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name.Contains("window") == true)
         {
+            GameMgr.m_CurScore += 250;
             StartCoroutine(normal());
             SceneManager.LoadScene("SecondScene");
         }
         else if (other.gameObject.name.Contains("thirdline") == true)
         {
+            GameMgr.m_CurScore += 500;
             StartCoroutine(normal());
             SceneManager.LoadScene("ThirdScene");
         }
         else if (other.gameObject.name.Contains("forthline") == true)
         {
+            GameMgr.m_CurScore += 1000;
             StartCoroutine(normal());
             SceneManager.LoadScene("ForthScene");
         }
@@ -181,7 +193,7 @@ public class PlayerController : MonoBehaviour
             if (m_OverlapBlock != other.gameObject)
             {
                 GameMgr.m_CurScore -= 75;
-                StartCoroutine(LimitPlayerSpeed(3.0f, 3.0f));
+                StartCoroutine(LimitPlayerSpeed(3.0f, 1.5f));
 
                 m_OverlapBlock = other.gameObject;
             }
@@ -309,8 +321,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator LimitPlayerSpeed(float newSpeed, float duration)
     {
-        float originalSpeed = walkSpeed; // Save the original speed
-        walkSpeed = newSpeed; // Set the new speed
+        float originalSpeed = walkSpeed;
+        walkSpeed = newSpeed;
 
         yield return new WaitForSeconds(duration);
 
