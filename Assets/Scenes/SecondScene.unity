@@ -1227,6 +1227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3c31aecb5b7a44daac8d58796e6262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstline: {fileID: 0}
 --- !u!1 &896962913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,7 +1831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obsPrefab: {fileID: 6794815864464885960, guid: b77ba5950d155244aac95263e0de7643,
     type: 3}
-  spawn: 2.5
+  spawn: 2.25
 --- !u!4 &1220437503
 Transform:
   m_ObjectHideFlags: 0

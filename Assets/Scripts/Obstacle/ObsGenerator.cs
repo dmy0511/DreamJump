@@ -8,7 +8,7 @@ public class ObsGenerator : MonoBehaviour
     public float spawn = 2.0f;  //장애물 생성 주기
     float delta = 0.0f;
 
-    float[] spawnPositions = { -2.0f, -0.63f, 0.7f, 2.0f };
+    float[] spawnPositions = { -2.0f, -0.67f, 0.67f, 2.0f };
 
     void Start()
     {

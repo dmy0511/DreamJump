@@ -15,7 +15,7 @@ public class GameMgr : MonoBehaviour
 
     public static float m_CurScore = 0.0f;
     public static float m_BestScore = 0.0f;
-    
+
     void Awake()
     {
         if (instance == null)
@@ -47,36 +47,29 @@ public class GameMgr : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "StartScene" || scene.name == "OverScene")
-        {
-            SetActiveConnectedObjects(false);
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            SetActiveConnectedObjects(true);
-            gameObject.SetActive(true);
-        }
+        UpdateGameObjectActiveState();
     }
 
     void Start()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == "StartScene" || sceneName == "OverScene")
-        {
-            SetActiveConnectedObjects(false);
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            SetActiveConnectedObjects(true);
-            gameObject.SetActive(true);
-        }
-
         Load();
 
         player = GameObject.Find("cat");
+
         m_CurScore = 0.0f;
+
+        UpdateGameObjectActiveState();
+    }
+
+    void UpdateGameObjectActiveState()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        bool isActive = !(sceneName == "StartScene" || sceneName == "OverScene");
+
+        gameObject.SetActive(isActive);
+
+        SetActiveConnectedObjects(isActive);
     }
 
     void Update()
@@ -86,6 +79,8 @@ public class GameMgr : MonoBehaviour
             m_BestScore = m_CurScore;
             Save();
         }
+
+        m_CurScore = Mathf.Max(0, m_CurScore);
 
         if (CurScore_Text != null)
             CurScore_Text.text = "점수 : " + FormatScoreString(m_CurScore);
@@ -132,20 +127,9 @@ public class GameMgr : MonoBehaviour
 
     void SetActiveConnectedObjects(bool isActive)
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-
         if (CurScore_Text != null)
         {
-            if (isActive && (currentSceneName == "StartScene" || currentSceneName == "OverScene" || currentSceneName == "FirstScene"))
-            {
-                CurScore_Text.transform.parent.gameObject.SetActive(true);
-                m_CurScore = 0.0f;
-                CurScore_Text.text = "점수 : " + m_CurScore.ToString();
-            }
-            else
-            {
-                CurScore_Text.transform.parent.gameObject.SetActive(isActive);
-            }
+            CurScore_Text.transform.parent.gameObject.SetActive(isActive);
         }
 
         if (BestScore_Text != null)

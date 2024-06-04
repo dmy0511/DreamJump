@@ -22,7 +22,7 @@ public class GameOverMgr : MonoBehaviour
             bestScoreText.text = "최고점 : " + FormatScoreString(GameMgr.m_BestScore);
 
         if (currentScoreText != null)
-            currentScoreText.text = "점수 : " + FormatScoreString(GameMgr.m_CurScore);
+            currentScoreText.text = "점수 : " + FormatScoreString(Mathf.Max(0, GameMgr.m_CurScore));
 
         if (rstBtn != null)
         {
@@ -39,20 +39,15 @@ public class GameOverMgr : MonoBehaviour
         {
             SceneManager.LoadScene("FirstScene");
         }
-
         if (Input.GetKeyDown(KeyCode.K)) //치트키
         {
             PlayerPrefs.DeleteAll();
-
             GameMgr.Load();
-
             if (bestScoreText != null)
                 bestScoreText.text = "최고점 : " + FormatScoreString(GameMgr.m_BestScore);
-
             if (currentScoreText != null)
-                currentScoreText.text = "점수 : " + FormatScoreString(GameMgr.m_CurScore);
+                currentScoreText.text = "점수 : " + FormatScoreString(Mathf.Max(0, GameMgr.m_CurScore));
         }
-
     }
 
     public void GameExit()
@@ -63,18 +58,15 @@ public class GameOverMgr : MonoBehaviour
     string FormatScoreString(float score)
     {
         string scoreString = score.ToString();
-
         if (score >= 1000)
         {
             int length = scoreString.Length;
             int commaCount = (length - 1) / 3;
-
             for (int i = 1; i <= commaCount; i++)
             {
                 scoreString = scoreString.Insert(length - i * 3, ",");
             }
         }
-
         return scoreString;
     }
 }

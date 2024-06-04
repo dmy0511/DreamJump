@@ -89,4 +89,16 @@ public class FbLineCtrl : MonoBehaviour
         }
         return null;
     }
+
+    public void SetItemProbabilitiesToZero()    //아이템 생성확률 0으로 변경
+    {
+        for (int i = 0; i < ItemProbabilities.Length; i++)
+        {
+            ItemProbabilities[i] = new ItemWithProbability
+            {
+                item = ItemProbabilities[i].item,
+                probability = 0f
+            };
+        }
+    }
 }

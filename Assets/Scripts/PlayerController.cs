@@ -12,17 +12,13 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     float jumpForce = 650.0f;
     float walkSpeed = 5.0f;
-
-    float m_Height = 0.0f;
-
+    float m_Height = 0.0f; // 이전 높이 저장 변수
     public float fallSpeed = 3f;
-    
+
     bool DropBool = false;
     bool isFbColl = false;
-
     public GameObject pauseObject;
     GameObject m_OverlapBlock = null; //연속 충돌 방지 변수
-
     [SerializeField] Animator transitionAnim;
 
     void Start()
@@ -34,10 +30,9 @@ public class PlayerController : MonoBehaviour
 
         this.rigid2D = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
-
         transform.localScale = new Vector3(0.165f, 0.165f, 1.0f);
-
         pauseObject.SetActive(false);
+        m_Height = transform.position.y; // 초기 높이 저장
     }
 
     void Update()
@@ -71,6 +66,18 @@ public class PlayerController : MonoBehaviour
         else
         {
             this.animator.speed = 1.0f;
+
+            // 점프 중일 때 현재 높이와 이전 높이 비교하여 점수 계산
+            float currentHeight = transform.position.y;
+            if (currentHeight > m_Height)
+            {
+                GameMgr.m_CurScore += 1; // 높이가 증가했으면 점수 추가
+            }
+            else if (currentHeight < m_Height)
+            {
+                GameMgr.m_CurScore -= 1; // 높이가 감소했으면 점수 감소
+            }
+            m_Height = currentHeight; // 현재 높이 저장
         }
 
         if (transform.position.y < -20)
@@ -87,7 +94,6 @@ public class PlayerController : MonoBehaviour
         {
             bool isPaused = !pauseObject.activeSelf;
             pauseObject.SetActive(isPaused);
-
             Time.timeScale = isPaused ? 0.0f : 1.0f;
         }
     }
@@ -338,6 +344,7 @@ public class PlayerController : MonoBehaviour
         }
 
         transitionAnim.SetTrigger("End");
+
         yield return new WaitForSeconds(1);
 
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
