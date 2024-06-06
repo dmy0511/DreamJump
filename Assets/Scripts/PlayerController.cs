@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     float jumpForce = 650.0f;
     float walkSpeed = 5.0f;
-    float m_Height = 0.0f; // 이전 높이 저장 변수
+    float m_Height = 0.0f;
     public float fallSpeed = 3f;
 
     bool DropBool = false;
@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public GameObject pauseObject;
     GameObject m_OverlapBlock = null; //연속 충돌 방지 변수
     [SerializeField] Animator transitionAnim;
+
+    bool isSpeedDebuffImmune = false; // can_2에 의한 이동 속도 감소 면역 상태 추적
+    float speedDebuffImmuneTimer = 0f; // 면역 지속 시간 타이머
 
     void Start()
     {
@@ -32,7 +35,8 @@ public class PlayerController : MonoBehaviour
         this.animator = GetComponent<Animator>();
         transform.localScale = new Vector3(0.165f, 0.165f, 1.0f);
         pauseObject.SetActive(false);
-        m_Height = transform.position.y; // 초기 높이 저장
+        m_Height = transform.position.y;
+
     }
 
     void Update()
@@ -67,17 +71,16 @@ public class PlayerController : MonoBehaviour
         {
             this.animator.speed = 1.0f;
 
-            // 점프 중일 때 현재 높이와 이전 높이 비교하여 점수 계산
             float currentHeight = transform.position.y;
             if (currentHeight > m_Height)
             {
-                GameMgr.m_CurScore += 1; // 높이가 증가했으면 점수 추가
+                GameMgr.m_CurScore += 1f;
             }
             else if (currentHeight < m_Height)
             {
-                GameMgr.m_CurScore -= 1; // 높이가 감소했으면 점수 감소
+                GameMgr.m_CurScore -= 1f;
             }
-            m_Height = currentHeight; // 현재 높이 저장
+            m_Height = currentHeight;
         }
 
         if (transform.position.y < -20)
@@ -95,6 +98,15 @@ public class PlayerController : MonoBehaviour
             bool isPaused = !pauseObject.activeSelf;
             pauseObject.SetActive(isPaused);
             Time.timeScale = isPaused ? 0.0f : 1.0f;
+        }
+
+        if (isSpeedDebuffImmune)
+        {
+            speedDebuffImmuneTimer -= Time.deltaTime;
+            if (speedDebuffImmuneTimer <= 0f)
+            {
+                isSpeedDebuffImmune = false; // 면역 상태 비활성화
+            }
         }
     }
 
@@ -176,7 +188,10 @@ public class PlayerController : MonoBehaviour
         {
             if (m_OverlapBlock != other.gameObject)
             {
-                GameMgr.m_CurScore += 50;
+                GameMgr.m_CurScore += 25;
+
+                isSpeedDebuffImmune = true; // 면역 상태 활성화
+                speedDebuffImmuneTimer = 2f;
 
                 m_OverlapBlock = other.gameObject;
             }
@@ -187,7 +202,8 @@ public class PlayerController : MonoBehaviour
         {
             if (m_OverlapBlock != other.gameObject)
             {
-                GameMgr.m_CurScore += 50;
+                GameMgr.m_CurScore += 25;
+                StartCoroutine(IncreasePlayerSpeedOverlapping(6.0f, 1.0f));
 
                 m_OverlapBlock = other.gameObject;
             }
@@ -198,12 +214,27 @@ public class PlayerController : MonoBehaviour
         {
             if (m_OverlapBlock != other.gameObject)
             {
+                // can_3 아이템과 충돌했을 때 플레이어 점수를 75점 감소
                 GameMgr.m_CurScore -= 75;
-                StartCoroutine(LimitPlayerSpeed(3.0f, 1.5f));
 
+                // 이동 속도 감소 면역 상태가 아닐 경우
+                if (!isSpeedDebuffImmune)
+                {
+                    // 플레이어의 이동 속도를 3.0f로 제한하는 코루틴을 실행. 지속 시간은 1.5초.
+                    StartCoroutine(LimitPlayerSpeedOverlapping(3.0f, 1.5f));
+                }
+                else // 면역 상태일 경우
+                {
+                    // 이동 속도 제한 코루틴을 중지하고, 이동 속도를 원래 값으로
+                    StopCoroutine(LimitPlayerSpeedOverlapping(3.0f, 1.5f));
+                    walkSpeed = 5;
+                }
+
+                // 중복 충돌 방지를 위해 현재 충돌한 게임 오브젝트를 저장
                 m_OverlapBlock = other.gameObject;
             }
 
+            // can_3 아이템을 제거합니다.
             Destroy(other.gameObject);
         }
         else if (other.gameObject.name.Contains("chur_1") == true)
@@ -325,13 +356,43 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene("OverScene");
     }
 
-    private IEnumerator LimitPlayerSpeed(float newSpeed, float duration)
+    IEnumerator IncreasePlayerSpeedOverlapping(float newSpeed, float duration)
     {
         float originalSpeed = walkSpeed;
         walkSpeed = newSpeed;
 
-        yield return new WaitForSeconds(duration);
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
+        walkSpeed = originalSpeed;
+    }
+
+    IEnumerator LimitPlayerSpeedOverlapping(float newSpeed, float duration)
+    {
+        // 플레이어의 원래 걷는 속도를 저장
+        float originalSpeed = walkSpeed;
+
+        // 플레이어의 걷는 속도를 새로운 지정된 속도로 설정
+        walkSpeed = newSpeed;
+
+        // 경과 시간을 초기화하여 지속 시간을 추적
+        float elapsedTime = 0f;
+
+        // 지정된 지속 시간이 지날 때까지 반복
+        while (elapsedTime < duration)
+        {
+            // 지난 프레임 이후 경과 시간을 증가
+            elapsedTime += Time.deltaTime;
+
+            // 여기서 실행을 중단하고 다음 프레임에서 계속
+            yield return null;
+        }
+
+        // 플레이어의 이동 속도를 원래 속도로 복원
         walkSpeed = originalSpeed;
     }
 

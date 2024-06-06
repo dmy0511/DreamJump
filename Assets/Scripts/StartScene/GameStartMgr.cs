@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class GameStartMgr : MonoBehaviour
 {
     public Button startBtn;
+    public GameObject explain;
 
     void Start()
     {
@@ -22,5 +23,10 @@ public class GameStartMgr : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Explain_Exit()
+    {
+        explain.SetActive(false);
     }
 }

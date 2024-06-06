@@ -58,7 +58,9 @@ public class FbLineCtrl : MonoBehaviour
     void SpawnItem(Vector3 a_Pos)
     {
         GameObject selectedItem = GetRandomItem();
-        if (selectedItem != null)
+        Collider[] colliders = Physics.OverlapSphere(a_Pos, 0.1f);
+
+        if (selectedItem != null && colliders.Length == 0)
         {
             GameObject go = Instantiate(selectedItem);
             go.SetActive(true);
@@ -90,7 +92,7 @@ public class FbLineCtrl : MonoBehaviour
         return null;
     }
 
-    public void SetItemProbabilitiesToZero()    //아이템 생성확률 0으로 변경
+    public void SetItemProbabilitiesToZero()
     {
         for (int i = 0; i < ItemProbabilities.Length; i++)
         {
