@@ -18,8 +18,8 @@ public class Back3 : MonoBehaviour
         float scrollPos = startY - player.transform.position.y * scroll;
         if (scrollPos > 12.0f)
             scrollPos = 12.0f;
-        else if (scrollPos < -21.95f)
-            scrollPos = -21.95f;
+        else if (scrollPos < -24.05f)
+            scrollPos = -24.05f;
 
         transform.position = new Vector3(0.0f,
                                 player.transform.position.y + scrollPos, 0.0f);

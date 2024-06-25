@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     bool isSpeedDebuffImmune = false; // can_2에 의한 이동 속도 감소 면역 상태 추적
     float speedDebuffImmuneTimer = 0f; // 면역 지속 시간 타이머
 
+    Coroutine slowCoroutine = null; // 슬로우 상태 코루틴을 저장할 변수
+
+
     void Start()
     {
         //실행 프레임 속도 60프레임 고정
@@ -220,13 +223,22 @@ public class PlayerController : MonoBehaviour
                 // 이동 속도 감소 면역 상태가 아닐 경우
                 if (!isSpeedDebuffImmune)
                 {
+                    // 슬로우 상태 코루틴이 이미 실행 중이면 중지
+                    if (slowCoroutine != null)
+                    {
+                        StopCoroutine(slowCoroutine);
+                    }
                     // 플레이어의 이동 속도를 3.0f로 제한하는 코루틴을 실행. 지속 시간은 1.5초.
-                    StartCoroutine(LimitPlayerSpeedOverlapping(3.0f, 1.5f));
+                    slowCoroutine = StartCoroutine(LimitPlayerSpeedOverlapping(3.0f, 1.5f));
                 }
                 else // 면역 상태일 경우
                 {
-                    // 이동 속도 제한 코루틴을 중지하고, 이동 속도를 원래 값으로
-                    StopCoroutine(LimitPlayerSpeedOverlapping(3.0f, 1.5f));
+                    // 슬로우 상태 코루틴을 중지하고, 이동 속도를 원래 값으로
+                    if (slowCoroutine != null)
+                    {
+                        StopCoroutine(slowCoroutine);
+                        slowCoroutine = null;
+                    }
                     walkSpeed = 5;
                 }
 
@@ -237,6 +249,7 @@ public class PlayerController : MonoBehaviour
             // can_3 아이템을 제거합니다.
             Destroy(other.gameObject);
         }
+
         else if (other.gameObject.name.Contains("chur_1") == true)
         {
             if (m_OverlapBlock != other.gameObject)

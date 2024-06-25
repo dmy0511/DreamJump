@@ -28,11 +28,13 @@ public class SoundMgr : MonoBehaviour
 
     private void Update()
     {
-        float volume = musicSlider.value;
-
-        if (musicSlider.value <= 0)
+        if (musicSlider != null)
         {
-            myMixer.SetFloat("music", Mathf.Log10(volume) * 0);
+            float volume = musicSlider.value;
+            if (volume <= 0)
+            {
+                myMixer.SetFloat("music", Mathf.Log10(volume) * 0);
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7ddb18945732d8c4ca81284c1027f53e
+guid: 3b4ba97f92981134fac74b3fe45f7bbd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: clipboard_2_0
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 51
+        width: 401
+        height: 354
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb007f177bbb5d94ea0a737f215c3d7c
+      internalID: -577752228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      clipboard_2_0: -577752228
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
